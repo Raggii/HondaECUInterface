@@ -4,8 +4,10 @@
 
 int main()
 {
-    printer();
-    serialFunction3();
+    Logger::getInstance().setLoggingLevel(3);
+    Logger::getInstance().testFunction();
+
+    return 0;
 }
 
 

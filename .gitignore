@@ -1,6 +1,7 @@
 *.d
 *.o
-/build
+/build/
+!/libs/**/*.o
+!/libs/**/*.d
 /libs/lvgl
 executable
-

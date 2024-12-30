@@ -1,0 +1,45 @@
+{
+    // Use the newer version of VSCode's tasks schema
+    "version": "2.0.0",
+
+    "tasks": [
+        {
+            "label": "Build",
+            "type": "shell",
+            "command": "make",
+            // or "make all" if you prefer
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "detail": "Runs the default build (make all) using the project's Makefile."
+        },
+        {
+            "label": "Rebuild",
+            "type": "shell",
+            "command": "make rebuild",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "detail": "Cleans and rebuilds the entire project from scratch."
+        },
+        {
+            "label": "Clean",
+            "type": "shell",
+            "command": "make clean",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": [],
+            "detail": "Removes the build directory and the final executables/libraries."
+        }
+    ]
+}

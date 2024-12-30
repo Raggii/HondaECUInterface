@@ -11,15 +11,15 @@
 #define CYN "\033[0;36m"
 #define END "\033[0m"
 
-#define ERROR "\033[1;31m[ERROR]: \033[0m"
+#define ERROR   "\033[1;31m[ERROR]: \033[0m"
 #define WARNING "\033[1;33m[WARNING]: \033[0m"
 #define SUCCESS "\033[1;32m[SUCCESS]: \033[0m"
-#define INFO "\033[1;34m[INFO]: \033[0m"
+#define INFO    "\033[1;34m[INFO]: \033[0m"
 
 // Macros for simplified logging
-#define LOG_ERROR(msg) Logger::getInstance().errorMessage(msg)
+#define LOG_ERROR(msg)   Logger::getInstance().errorMessage(msg)
 #define LOG_WARNING(msg) Logger::getInstance().warningMessage(msg)
-#define LOG_INFO(msg) Logger::getInstance().infoMessage(msg)
+#define LOG_INFO(msg)    Logger::getInstance().infoMessage(msg)
 #define LOG_RAINBOW(msg) Logger::getInstance().rainbowMessage(msg)
 
 class Logger {

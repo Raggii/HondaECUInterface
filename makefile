@@ -4,42 +4,62 @@ BLUE  := \033[0;34m
 RED   := \033[0;31m
 RESET := \033[0m
 
-# Flags
-CXX       = g++
-CXXFLAGS  = -Wall -Wextra -pedantic -MMD -MP
-LDFLAGS   =
 
-# Build Type
+# Compilers & Flags
+# Use C compiler for .c (LVGL)
+CC       = gcc
+CXX      = g++
+
+CFLAGS   = -Wall -Wextra -pedantic -std=c99 -MMD -MP
+CXXFLAGS = -Wall -Wextra -pedantic -MMD -MP
+LDFLAGS  =
+
 BUILD_TYPE ?= Debug
 
 ifeq ($(BUILD_TYPE), Debug)
+  CFLAGS   += -O0 -g
   CXXFLAGS += -O0 -g
 else ifeq ($(BUILD_TYPE), Release)
+  CFLAGS   += -O2
   CXXFLAGS += -O2
 endif
 
-#Folders
+
+# Folders
 SRC_DIR    = src
 MODULE_DIR = module
 BUILD_DIR  = build
 TARGET     = executable
 
-# 4. Includes
+# Includes
 INC_DIRS  = $(shell find $(MODULE_DIR) -type d)
 INC_DIRS += $(SRC_DIR)
-INC_FLAGS    = $(patsubst %, -I%, $(INC_DIRS))
+INC_FLAGS = $(patsubst %, -I%, $(INC_DIRS))
 
+# LVGL Integration
+LVGL_DIR       = libs/lvgl
+LVGL_SRC_DIR   = $(LVGL_DIR)/src
+LVGL_C_SOURCES = $(shell find $(LVGL_SRC_DIR) -type f -name "*.c")
+LVGL_OBJ_DIR   = $(BUILD_DIR)/lvgl
+LVGL_OBJECTS   = $(patsubst $(LVGL_SRC_DIR)/%.c, $(LVGL_OBJ_DIR)/%.o, $(LVGL_C_SOURCES))
+
+# Static library filename
+LVGL_STATIC_LIB = $(LVGL_OBJ_DIR)/liblvgl.a
+
+INC_FLAGS += -I$(LVGL_DIR) -I$(LVGL_SRC_DIR)
 
 MAIN_SOURCES = $(wildcard $(SRC_DIR)/*.c++) \
                $(wildcard $(MODULE_DIR)/*/*.c++)
+
 MAIN_OBJECTS = $(patsubst %.c++,$(BUILD_DIR)/%.o,$(MAIN_SOURCES))
 MAIN_DEPS    = $(MAIN_OBJECTS:.o=.d)
 
+
+# Phony Targets
 .PHONY: all clean rebuild build success
 
 all: success
 
-# If everything builds, we print a final success message:
 success: $(TARGET)
 	@echo "$(GREEN)Build successful!$(RESET)"
 
@@ -49,14 +69,29 @@ clean:
 	@echo "$(RED)Cleaning build directory$(RESET)"
 	@rm -rf $(BUILD_DIR) $(TARGET)
 
-# Parallel build convenience target
 build:
 	@echo "$(BLUE)Running parallel build...$(RESET)"
 	@$(MAKE) -j$(shell nproc) all
 
-$(TARGET): $(MAIN_OBJECTS)
+$(TARGET): $(MAIN_OBJECTS) $(LVGL_STATIC_LIB)
 	@echo "Linking $(TARGET) ..."
-	@$(CXX) $(CXXFLAGS) -o $@ $^
+	# Link with g++
+	@$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
+
+# LVGL: Build as a C static library
+$(LVGL_STATIC_LIB): $(LVGL_OBJECTS)
+	@echo "Archiving LVGL into static library $@"
+	@ar rcs $@ $^
+
+# Compile each LVGL .c source with the C compiler, not g++
+$(LVGL_OBJ_DIR)/%.o: $(LVGL_SRC_DIR)/%.c
+	@mkdir -p $(dir $@)
+	@if [ -f $@ ]; then \
+		echo "$(BLUE)Recompiling $(RESET)$<"; \
+	else \
+		echo "$(GREEN)Compiling   $(RESET)$<"; \
+	fi
+	@$(CC) $(CFLAGS) $(INC_FLAGS) -c $< -o $@
 
 $(BUILD_DIR)/%.o: %.c++
 	@mkdir -p $(dir $@)
@@ -67,4 +102,5 @@ $(BUILD_DIR)/%.o: %.c++
 	fi
 	@$(CXX) $(CXXFLAGS) $(INC_FLAGS) -c $< -o $@
 
+# Auto-Dependency Includes
 -include $(MAIN_DEPS)

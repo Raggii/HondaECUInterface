@@ -1,9 +1,6 @@
-# Prerequisites
 *.d
-
-# Compiled Object files
 *.o
-
-
 /build
+/libs/lvgl
 executable
+

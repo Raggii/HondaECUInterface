@@ -22,7 +22,7 @@ endif
 SRC_DIR    = src
 MODULE_DIR = module
 BUILD_DIR  = build
-TARGET     = my_program
+TARGET     = executable
 
 # 4. Includes
 INC_DIRS  = $(shell find $(MODULE_DIR) -type d)

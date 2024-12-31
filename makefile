@@ -4,14 +4,13 @@ BLUE  := \033[0;34m
 RED   := \033[0;31m
 RESET := \033[0m
 
-
 # Compilers & Flags
 # Use C compiler for .c (LVGL)
 CC       = gcc
 CXX      = g++
 
 CFLAGS   = -Wall -Wextra -pedantic -std=c99 -MMD -MP
-CXXFLAGS = -Wall -Wextra -pedantic -MMD -MP
+CXXFLAGS = -Wall -Wextra -pedantic -std=c++17 -MMD -MP
 LDFLAGS  =
 
 BUILD_TYPE ?= Debug
@@ -23,7 +22,6 @@ else ifeq ($(BUILD_TYPE), Release)
   CFLAGS   += -O2
   CXXFLAGS += -O2
 endif
-
 
 # Folders
 SRC_DIR    = src
@@ -45,15 +43,21 @@ LVGL_OBJECTS   = $(patsubst $(LVGL_SRC_DIR)/%.c, $(LVGL_OBJ_DIR)/%.o, $(LVGL_C_S
 
 # Static library filename
 LVGL_STATIC_LIB = $(LVGL_OBJ_DIR)/liblvgl.a
-
 INC_FLAGS += -I$(LVGL_DIR) -I$(LVGL_SRC_DIR)
+
+# SDL2 Integration
+SDL_CFLAGS := $(shell sdl2-config --cflags)
+SDL_LDFLAGS := $(shell sdl2-config --libs)
+
+# Append SDL2 flags to CXXFLAGS and LDFLAGS
+CXXFLAGS += $(SDL_CFLAGS)
+LDFLAGS  += $(SDL_LDFLAGS)
 
 MAIN_SOURCES = $(wildcard $(SRC_DIR)/*.c++) \
                $(wildcard $(MODULE_DIR)/*/*.c++)
 
 MAIN_OBJECTS = $(patsubst %.c++,$(BUILD_DIR)/%.o,$(MAIN_SOURCES))
 MAIN_DEPS    = $(MAIN_OBJECTS:.o=.d)
-
 
 # Phony Targets
 .PHONY: all clean rebuild build success
@@ -75,7 +79,7 @@ build:
 
 $(TARGET): $(MAIN_OBJECTS) $(LVGL_STATIC_LIB)
 	@echo "Linking $(TARGET) ..."
-	# Link with g++
+	# Link with g++ and SDL2
 	@$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
 
 # LVGL: Build as a C static library
@@ -83,7 +87,7 @@ $(LVGL_STATIC_LIB): $(LVGL_OBJECTS)
 	@echo "Archiving LVGL into static library $@"
 	@ar rcs $@ $^
 
-# Compile each LVGL .c source with the C compiler, not g++
+# Compiling LVGL C Sources
 $(LVGL_OBJ_DIR)/%.o: $(LVGL_SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
 	@if [ -f $@ ]; then \
@@ -93,6 +97,7 @@ $(LVGL_OBJ_DIR)/%.o: $(LVGL_SRC_DIR)/%.c
 	fi
 	@$(CC) $(CFLAGS) $(INC_FLAGS) -c $< -o $@
 
+# Compiling Main C++ Sources
 $(BUILD_DIR)/%.o: %.c++
 	@mkdir -p $(dir $@)
 	@if [ -f $@ ]; then \

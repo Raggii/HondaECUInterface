@@ -1,5 +1,5 @@
-#ifndef LOGGING_H
-#define LOGGING_H
+#ifndef LOGGING_HPP
+#define LOGGING_HPP
 
 #include <string>
 
@@ -40,4 +40,4 @@ private:
     int loggingLevel = 1; // Default logging level
 };
 
-#endif // LOGGING_H
+#endif // LOGGING_HPP

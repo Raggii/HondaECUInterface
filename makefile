@@ -53,10 +53,10 @@ SDL_LDFLAGS := $(shell sdl2-config --libs)
 CXXFLAGS += $(SDL_CFLAGS)
 LDFLAGS  += $(SDL_LDFLAGS)
 
-MAIN_SOURCES = $(wildcard $(SRC_DIR)/*.c++) \
-               $(wildcard $(MODULE_DIR)/*/*.c++)
+MAIN_SOURCES = $(wildcard $(SRC_DIR)/*.cpp) \
+               $(wildcard $(MODULE_DIR)/*/*.cpp)
 
-MAIN_OBJECTS = $(patsubst %.c++,$(BUILD_DIR)/%.o,$(MAIN_SOURCES))
+MAIN_OBJECTS = $(patsubst %.cpp,$(BUILD_DIR)/%.o,$(MAIN_SOURCES))
 MAIN_DEPS    = $(MAIN_OBJECTS:.o=.d)
 
 # Phony Targets
@@ -98,7 +98,7 @@ $(LVGL_OBJ_DIR)/%.o: $(LVGL_SRC_DIR)/%.c
 	@$(CC) $(CFLAGS) $(INC_FLAGS) -c $< -o $@
 
 # Compiling Main C++ Sources
-$(BUILD_DIR)/%.o: %.c++
+$(BUILD_DIR)/%.o: %.cpp
 	@mkdir -p $(dir $@)
 	@if [ -f $@ ]; then \
 		echo "$(BLUE)Recompiling $(RESET)$<"; \

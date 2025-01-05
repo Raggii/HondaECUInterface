@@ -3,8 +3,8 @@
 #include <unistd.h>
 #include <string>
 #include <vector>
-#include "logging.h++"
-#include "serial.h++"
+#include "logging.hpp"
+#include "serial.hpp"
 
 Serial::Serial(const std::string& port, unsigned int baud) : serialPort(-1), portName(port), baudRate(baud) {}
 

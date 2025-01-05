@@ -1,5 +1,5 @@
-#ifndef MAIN_SCREEN_HXX
-#define MAIN_SCREEN_HXX
+#ifndef MAIN_SCREEN_HPP
+#define MAIN_SCREEN_HPP
 
 #include "lvgl.h"
 
@@ -11,4 +11,4 @@ namespace MyApp
     lv_obj_t* create_main_screen();
 }
 
-#endif
+#endif // MAIN_SCREEN_HPP

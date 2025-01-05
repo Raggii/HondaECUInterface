@@ -1,4 +1,4 @@
-#include "gui_init.h++"
+#include "gui_init.hpp"
 
 #include <SDL2/SDL.h>
 extern "C" {

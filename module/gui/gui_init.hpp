@@ -1,5 +1,5 @@
-#ifndef GUI_INIT_HXX
-#define GUI_INIT_HXX
+#ifndef GUI_INIT_HPP
+#define GUI_INIT_HPP
 
 /**
  * Initialize the GUI (LVGL + SDL).
@@ -11,4 +11,4 @@ void gui_init(void);
  */
 void gui_deinit(void);
 
-#endif
+#endif // GUI_INIT_HPP

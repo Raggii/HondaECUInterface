@@ -1,5 +1,5 @@
-#include "gui_init.h++"
-#include "main_screen.h++"
+#include "gui_init.hpp"
+#include "main_screen.hpp"
 
 #include <SDL2/SDL.h>
 extern "C" {

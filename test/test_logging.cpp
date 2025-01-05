@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "logging.h++"
+#include "logging.hpp"
 
 // Basic test case and fixture
 TEST(LoggingModuleTests, TestPrinter) {

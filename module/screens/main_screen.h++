@@ -1,19 +1,14 @@
 #ifndef MAIN_SCREEN_HXX
 #define MAIN_SCREEN_HXX
 
-#include "lvgl.h" // Ensure this points to your local lvgl.h
+#include "lvgl.h"
 
-namespace MyApp {
+namespace MyApp
+{
+    /**
+     * Create and return the main screen (an LVGL object).
+     */
+    lv_obj_t* create_main_screen();
+}
 
-/**
- * @brief Creates and returns a pointer to the main screen.
- * @return lv_obj_t* Pointer to the created main screen.
- */
-class MainScreen {
-public:
-    static lv_obj_t* create();
-};
-
-} // namespace MyApp
-
-#endif // MAIN_SCREEN_HXX
+#endif

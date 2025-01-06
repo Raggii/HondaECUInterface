@@ -4,4 +4,5 @@
 !/libs/**/*.o
 !/libs/**/*.d
 /libs/lvgl
+/libs/lv_drivers
 executable

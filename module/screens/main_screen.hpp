@@ -1,7 +1,8 @@
-#ifndef MAIN_SCREEN_HPP
-#define MAIN_SCREEN_HPP
+#pragma once
 
+extern "C" {
 #include "lvgl.h"
+}
 
 namespace MyApp
 {
@@ -10,5 +11,3 @@ namespace MyApp
      */
     lv_obj_t* create_main_screen();
 }
-
-#endif // MAIN_SCREEN_HPP

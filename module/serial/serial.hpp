@@ -1,5 +1,4 @@
-#ifndef SERIAL_HPP
-#define SERIAL_HPP
+#pragma once
 
 #include <string>
 #include <vector>
@@ -22,5 +21,3 @@ private:
 
     void resetPort();
 };
-
-#endif // SERIAL_HPP

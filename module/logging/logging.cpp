@@ -4,13 +4,13 @@
 #include <vector>
 
 // Static method to get the single instance
-Logger &Logger::getInstance() 
+Logger &Logger::getInstance()
 {
     static Logger instance;
     return instance;
 }
 
-void Logger::setLoggingLevel(int level) 
+void Logger::setLoggingLevel(int level)
 {
     if (level >= 0 && level <= 3) {
         loggingLevel = level;
@@ -19,7 +19,7 @@ void Logger::setLoggingLevel(int level)
     }
 }
 
-void Logger::printMessage(const std::string &message, int level) 
+void Logger::printMessage(const std::string &message, int level)
 {
     static const std::vector<std::string> messageList = {ERROR, WARNING, INFO, SUCCESS};
     if (level <= loggingLevel) {
@@ -28,22 +28,22 @@ void Logger::printMessage(const std::string &message, int level)
     }
 }
 
-void Logger::errorMessage(const std::string &message) 
+void Logger::errorMessage(const std::string &message)
 {
     printMessage(message, 1);
 }
 
-void Logger::warningMessage(const std::string &message) 
+void Logger::warningMessage(const std::string &message)
 {
     printMessage(message, 2);
 }
 
-void Logger::infoMessage(const std::string &message) 
+void Logger::infoMessage(const std::string &message)
 {
     printMessage(message, 3);
 }
 
-void Logger::rainbowMessage(const std::string &message) 
+void Logger::rainbowMessage(const std::string &message)
 {
     static const std::vector<std::string> colourList = {RED, YEL, GRN, CYN, BLU, MAG};
     if (loggingLevel == 3) {
@@ -59,7 +59,7 @@ void Logger::rainbowMessage(const std::string &message)
     }
 }
 
-void Logger::testFunction() 
+void Logger::testFunction()
 {
     errorMessage("This is a test error");
     warningMessage("This is a test warning");

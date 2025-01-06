@@ -1,5 +1,6 @@
 #include "gui_init.hpp"
 #include "main_screen.hpp"
+#include "logging.hpp"
 
 #include <SDL2/SDL.h>
 extern "C" {
@@ -22,6 +23,7 @@ int main()
         }
         lv_timer_handler();
         SDL_Delay(5);
+        LOG_WARNING("Test");
     }
 
 quit:

@@ -26,6 +26,7 @@ void Logger::printMessage(const std::string &message, int level)
         std::string fullMessage = messageList[level - 1] + message + "\n";
         printf("%s", fullMessage.c_str());
     }
+    fflush(stdout);
 }
 
 void Logger::errorMessage(const std::string &message)

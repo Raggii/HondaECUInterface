@@ -36,5 +36,5 @@ private:
     Logger() = default; // Private constructor for singleton
     void printMessage(const std::string &message, int level);
 
-    int loggingLevel = 1; // Default logging level
+    int loggingLevel = 3; // Default logging level
 };

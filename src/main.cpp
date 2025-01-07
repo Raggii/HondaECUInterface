@@ -14,33 +14,28 @@ int main()
     lv_obj_t* screen = MyApp::create_main_screen();
     lv_scr_load(screen);
 
-    // Initialize a variable to keep track of the last log time.
-    uint32_t last_log_time = SDL_GetTicks();
-
     while(true) {
         SDL_Event e;
         while(SDL_PollEvent(&e)) {
+            // Log mouse button down events
+            // if(e.type == SDL_MOUSEBUTTONDOWN) {
+            //     printf("Mouse button pressed at (%d, %d)\n", e.button.x, e.button.y);
+            //     fflush(stdout);
+            // }
+            // // Log mouse button up events
+            // if(e.type == SDL_MOUSEBUTTONUP) {
+            //     printf("Mouse button released at (%d, %d)\n", e.button.x, e.button.y);
+            //     fflush(stdout);
+            // }
             if(e.type == SDL_QUIT) {
                 goto quit;
             }
         }
 
-        // Handle LVGL timers and tasks.
         lv_timer_handler();
-
-        // Get the current time in milliseconds.
-        uint32_t current_time = SDL_GetTicks();
-
-        // Check if 3 seconds (3000 milliseconds) have passed since the last log.
-        if(current_time - last_log_time >= 3000) {
-            LOG_ERROR("Logging message every 3 seconds");
-            LOG_RAINBOW("Logging message every 3 seconds");
-            LOG_WARNING("Logging message every 3 seconds");
-            last_log_time = current_time;
-        }
-
         SDL_Delay(5);
     }
+
 
 quit:
     gui_deinit();

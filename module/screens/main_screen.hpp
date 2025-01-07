@@ -3,6 +3,7 @@
 extern "C" {
 #include "lvgl.h"
 }
+#include "logging.hpp"
 
 namespace MyApp
 {
